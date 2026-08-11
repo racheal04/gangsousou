@@ -44,12 +44,12 @@ python -m gangsousou --import-local ".." --local-only --no-push
 
 1. 创建一个公开 GitHub 仓库，把本项目推送到仓库。
 2. 在仓库 `Settings → Pages` 中选择 `GitHub Actions` 作为发布来源。
-3. 微信扫描 WxPusher 极简推送二维码并获取个人 SPT。
-4. 在 `Settings → Secrets and variables → Actions` 新建 Secret：`WXPUSHER_SPT`。
+3. 登录 WxPusher 管理后台，创建“岗搜搜”应用并扫码关注该应用。
+4. 在 `Settings → Secrets and variables → Actions` 新建两个 Secret：`WXPUSHER_APP_TOKEN` 和 `WXPUSHER_UID`。
 5. 在同一页面新建 Variable：`SITE_URL`，值为 GitHub Pages 网站地址。
 6. 打开 `Actions → 每日采集与发布 → Run workflow` 做首次手动测试。
 
-`WXPUSHER_SPT` 只能存放在 GitHub Secret 中，不要写进代码、截图或聊天记录。
+`WXPUSHER_APP_TOKEN` 和 `WXPUSHER_UID` 只能存放在 GitHub Secret 中，不要写进代码、截图或聊天记录。
 
 定时表达式使用 UTC 12:00，对应北京时间 20:00。GitHub 的定时任务可能因排队延后几分钟。
 
