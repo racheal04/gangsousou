@@ -61,7 +61,11 @@ def run(args: argparse.Namespace) -> int:
     save_jobs(data_path, merged, source_runs)
     if not args.no_push:
         try:
-            pushplus_digest(new_jobs, os.getenv("SITE_URL", ""))
+            sent = pushplus_digest(list(merged.values()), os.getenv("SITE_URL", ""), len(new_jobs))
+            if sent:
+                logging.getLogger(__name__).info("微信推送成功")
+            else:
+                logging.getLogger(__name__).info("未配置微信推送密钥，已跳过推送")
         except Exception as exc:
             logging.getLogger(__name__).error("微信推送失败：%s", exc)
     print(json.dumps({"total": len(merged), "incoming": len(incoming), "new": len(new_jobs), "sources": source_runs}, ensure_ascii=False))
