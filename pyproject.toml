@@ -1,0 +1,10 @@
+[project]
+name = "gangsousou"
+version = "0.1.0"
+description = "江苏编制与国企正式岗位个人情报台"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+

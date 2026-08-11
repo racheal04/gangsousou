@@ -1,0 +1,50 @@
+name: 每日采集与发布
+
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: gangsousou-daily
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: 安装依赖
+        run: pip install -r requirements.txt
+      - name: 抓取、匹配并推送
+        env:
+          PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: PYTHONPATH=src python -m gangsousou
+      - name: 保存新增历史数据
+        run: |
+          git config user.name "gangsousou-bot"
+          git config user.email "gangsousou-bot@users.noreply.github.com"
+          git add data/jobs.json
+          git diff --cached --quiet || git commit -m "data: 每日岗位更新"
+          git push
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          token: ${{ github.token }}
+        env:
+          GITHUB_PAGES: true
+

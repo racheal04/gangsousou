@@ -1,0 +1,32 @@
+{
+  "graduation_year": 2028,
+  "degree_level": "硕士研究生",
+  "major": "资源与环境",
+  "major_code": "085700",
+  "research_direction": "测绘与遥感工程",
+  "school": "河海大学",
+  "political_status": "中共党员",
+  "cet4": 442,
+  "cet6": 443,
+  "has_grassroots_experience": false,
+  "has_student_cadre_experience": false,
+  "has_school_level_award": false,
+  "household": "山东淄博",
+  "gender": "女",
+  "exclude_physical_test": true,
+  "exclude_dispatch": true,
+  "accept_field_work": true,
+  "city_priority": [
+    "苏州", "南京", "无锡", "南通", "常州", "扬州", "镇江",
+    "徐州", "盐城", "泰州", "淮安", "宿迁", "连云港"
+  ],
+  "category_priority": [
+    "公务员", "选调生", "参公", "事业单位", "军队文职", "国企正式岗", "身份待核实"
+  ],
+  "major_terms": [
+    "资源与环境", "085700", "测绘", "遥感", "测绘工程", "遥感科学与技术",
+    "摄影测量与遥感", "地理信息", "地图学与地理信息系统", "大地测量学与测量工程",
+    "测绘科学与技术", "不限专业", "专业不限"
+  ]
+}
+

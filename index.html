@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="岗搜搜：江苏编制与国企正式岗位个人情报台">
+  <title>岗搜搜</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">岗</span>
+      <div><h1>岗搜搜</h1><p>江苏编制岗位个人情报台</p></div>
+    </div>
+    <div class="updated" id="updated">正在读取岗位库…</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <span class="eyebrow">2028届 · 资源与环境 085700</span>
+        <h2>把值得看的岗位，排在最前面。</h2>
+        <p>信息以官方公告为准；“待确认”代表需要向招录单位核对专业目录或用工身份。</p>
+      </div>
+      <div class="hero-score"><strong id="highCount">0</strong><span>高匹配岗位</span></div>
+    </section>
+
+    <section class="stats" aria-label="岗位概览">
+      <article><span>岗位总数</span><strong id="totalCount">0</strong></article>
+      <article><span>当前可报名</span><strong id="availableCount">0</strong></article>
+      <article><span>身份待核实</span><strong id="uncertainCount">0</strong></article>
+      <article><span>收藏</span><strong id="favoriteCount">0</strong></article>
+    </section>
+
+    <nav class="tabs" aria-label="岗位专区">
+      <button class="tab active" data-section="可报名">可报名</button>
+      <button class="tab" data-section="身份待核实">身份待核实</button>
+      <button class="tab" data-section="趋势参考">趋势参考</button>
+      <button class="tab" data-section="收藏">我的收藏</button>
+    </nav>
+
+    <section class="filters">
+      <label class="search"><span>搜索</span><input id="search" type="search" placeholder="单位、岗位、专业关键词"></label>
+      <label>城市<select id="city"><option value="">全部城市</option></select></label>
+      <label>类型<select id="category"><option value="">全部类型</option></select></label>
+      <label>匹配<select id="level"><option value="">全部等级</option><option>高把握</option><option>待确认</option><option>不符合</option></select></label>
+      <label>状态<select id="progress"><option value="">全部状态</option><option>未处理</option><option>准备报名</option><option>已报名</option><option>已放弃</option></select></label>
+      <label class="sort">排序<select id="sort"><option value="score">匹配度优先</option><option value="date">发布时间优先</option><option value="deadline">截止时间优先</option></select></label>
+    </section>
+
+    <div class="result-meta"><span id="resultCount">0 个岗位</span><button id="resetFilters" class="link-button">清空筛选</button></div>
+    <section id="jobList" class="job-list" aria-live="polite"></section>
+    <button id="loadMore" class="load-more" hidden>加载更多岗位</button>
+    <div id="empty" class="empty" hidden><strong>暂时没有符合条件的岗位</strong><span>换个筛选条件，或等待下一次自动更新。</span></div>
+
+    <details class="health">
+      <summary>查看信息源运行状态</summary>
+      <div id="sourceHealth"></div>
+    </details>
+  </main>
+
+  <template id="jobTemplate">
+    <article class="job-card">
+      <div class="card-head">
+        <div class="badges"></div>
+        <button class="favorite" aria-label="收藏岗位" title="收藏岗位">☆</button>
+      </div>
+      <h3></h3>
+      <p class="org"></p>
+      <div class="job-meta"></div>
+      <p class="summary"></p>
+      <div class="match-explain"></div>
+      <div class="card-foot">
+        <select class="progress-select" aria-label="报名状态">
+          <option>未处理</option><option>准备报名</option><option>已报名</option><option>已放弃</option>
+        </select>
+        <a class="official-link" target="_blank" rel="noopener noreferrer">查看官方公告</a>
+      </div>
+    </article>
+  </template>
+  <script src="assets/app.js" defer></script>
+</body>
+</html>

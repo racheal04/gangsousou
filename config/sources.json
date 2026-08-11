@@ -1,0 +1,154 @@
+[
+  {
+    "id": "jiangsu_sydw",
+    "name": "江苏省人社厅·省属事业单位招聘",
+    "url": "https://jshrss.jiangsu.gov.cn/col/col78506/index.html",
+    "category": "事业单位",
+    "city": "江苏",
+    "official_domains": ["jshrss.jiangsu.gov.cn"]
+  },
+  {
+    "id": "jiangsu_gwy",
+    "name": "江苏省人社厅·招考公告",
+    "url": "https://jshrss.jiangsu.gov.cn/col/col92917/index.html",
+    "category": "公务员",
+    "city": "江苏",
+    "official_domains": ["jshrss.jiangsu.gov.cn", "jszzb.gov.cn"]
+  },
+  {
+    "id": "jiangsu_zzb",
+    "name": "中共江苏省委组织部",
+    "url": "https://www.jszzb.gov.cn/col83/index.html",
+    "category": "公务员",
+    "city": "江苏",
+    "official_domains": ["jszzb.gov.cn"]
+  },
+  {
+    "id": "suzhou_exam",
+    "name": "苏州人社·事业单位考试专题",
+    "url": "https://hrss.suzhou.gov.cn/szrskszl/sydwkszt/list.shtml",
+    "category": "事业单位",
+    "city": "苏州",
+    "official_domains": ["hrss.suzhou.gov.cn", "suzhou.gov.cn"]
+  },
+  {
+    "id": "suzhou_notice",
+    "name": "苏州市人社局·通知公告",
+    "url": "https://hrss.suzhou.gov.cn/jsszhrss/gsgg/list.shtml",
+    "category": "事业单位",
+    "city": "苏州",
+    "official_domains": ["hrss.suzhou.gov.cn"]
+  },
+  {
+    "id": "nanjing_hrss",
+    "name": "南京市人社局",
+    "url": "https://rsj.nanjing.gov.cn/",
+    "category": "事业单位",
+    "city": "南京",
+    "official_domains": ["rsj.nanjing.gov.cn", "njrsks.net"]
+  },
+  {
+    "id": "wuxi_hrss",
+    "name": "无锡市人社局",
+    "url": "https://hrss.wuxi.gov.cn/ztzl/wxrskszl/index.shtml",
+    "category": "事业单位",
+    "city": "无锡",
+    "official_domains": ["hrss.wuxi.gov.cn"]
+  },
+  {
+    "id": "nantong_hrss",
+    "name": "南通市人社局",
+    "url": "https://rsj.nantong.gov.cn/",
+    "category": "事业单位",
+    "city": "南通",
+    "official_domains": ["rsj.nantong.gov.cn"]
+  },
+  {
+    "id": "changzhou_hrss",
+    "name": "常州市人社局",
+    "url": "https://rsj.changzhou.gov.cn/",
+    "category": "事业单位",
+    "city": "常州",
+    "official_domains": ["rsj.changzhou.gov.cn"]
+  },
+  {
+    "id": "xuzhou_hrss",
+    "name": "徐州市人社局",
+    "url": "https://hrss.xz.gov.cn/",
+    "category": "事业单位",
+    "city": "徐州",
+    "official_domains": ["hrss.xz.gov.cn"]
+  },
+  {
+    "id": "yangzhou_hrss",
+    "name": "扬州市人社局",
+    "url": "https://hrss.yangzhou.gov.cn/",
+    "category": "事业单位",
+    "city": "扬州",
+    "official_domains": ["hrss.yangzhou.gov.cn"]
+  },
+  {
+    "id": "zhenjiang_hrss",
+    "name": "镇江市人社局",
+    "url": "https://hrss.zhenjiang.gov.cn/",
+    "category": "事业单位",
+    "city": "镇江",
+    "official_domains": ["hrss.zhenjiang.gov.cn"]
+  },
+  {
+    "id": "yancheng_hrss",
+    "name": "盐城市人社局",
+    "url": "https://jsychrss.yancheng.gov.cn/",
+    "category": "事业单位",
+    "city": "盐城",
+    "official_domains": ["jsychrss.yancheng.gov.cn"]
+  },
+  {
+    "id": "taizhou_hrss",
+    "name": "泰州市人社局",
+    "url": "https://rsj.taizhou.gov.cn/",
+    "category": "事业单位",
+    "city": "泰州",
+    "official_domains": ["rsj.taizhou.gov.cn"]
+  },
+  {
+    "id": "huaian_hrss",
+    "name": "淮安市人社局",
+    "url": "https://rsj.huaian.gov.cn/",
+    "category": "事业单位",
+    "city": "淮安",
+    "official_domains": ["rsj.huaian.gov.cn"]
+  },
+  {
+    "id": "suqian_hrss",
+    "name": "宿迁市人社局",
+    "url": "https://sqhrss.suqian.gov.cn/",
+    "category": "事业单位",
+    "city": "宿迁",
+    "official_domains": ["sqhrss.suqian.gov.cn"]
+  },
+  {
+    "id": "lianyungang_hrss",
+    "name": "连云港市人社局",
+    "url": "http://rsj.lyg.gov.cn/",
+    "category": "事业单位",
+    "city": "连云港",
+    "official_domains": ["rsj.lyg.gov.cn"]
+  },
+  {
+    "id": "jiangsu_sasac",
+    "name": "江苏省国资委",
+    "url": "https://jsgzw.jiangsu.gov.cn/col/col61361/",
+    "category": "身份待核实",
+    "city": "江苏",
+    "official_domains": ["jsgzw.jiangsu.gov.cn"]
+  },
+  {
+    "id": "military_civilian",
+    "name": "军队人才网",
+    "url": "http://81rc.81.cn/",
+    "category": "军队文职",
+    "city": "江苏",
+    "official_domains": ["81rc.81.cn", "81rc.mil.cn", "81.mil.cn", "mod.gov.cn"]
+  }
+]
