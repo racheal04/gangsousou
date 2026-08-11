@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: "0 12 * * *"
   workflow_dispatch:
+    inputs:
+      push_only:
+        description: "仅测试微信推送（跳过联网抓取）"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -29,8 +34,14 @@ jobs:
         env:
           PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
           SITE_URL: ${{ vars.SITE_URL }}
-        run: PYTHONPATH=src python -m gangsousou
+        run: |
+          if [ "${{ inputs.push_only }}" = "true" ]; then
+            PYTHONPATH=src python -m gangsousou --local-only
+          else
+            PYTHONPATH=src python -m gangsousou
+          fi
       - name: 保存新增历史数据
+        if: ${{ inputs.push_only != true }}
         run: |
           git config user.name "gangsousou-bot"
           git config user.email "gangsousou-bot@users.noreply.github.com"
@@ -38,13 +49,15 @@ jobs:
           git diff --cached --quiet || git commit -m "data: 每日岗位更新"
           git push
       - uses: actions/configure-pages@v5
+        if: ${{ inputs.push_only != true }}
       - uses: actions/upload-pages-artifact@v3
+        if: ${{ inputs.push_only != true }}
         with:
           path: .
       - id: deployment
         uses: actions/deploy-pages@v4
+        if: ${{ inputs.push_only != true }}
         with:
           token: ${{ github.token }}
         env:
           GITHUB_PAGES: true
-
