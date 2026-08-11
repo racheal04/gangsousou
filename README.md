@@ -9,7 +9,7 @@
 - 按 2028 届、资源与环境（085700）、测绘与遥感方向、党员、英语成绩和城市偏好评分。
 - 自动排除体能测试、劳务派遣、编外和人才派遣。
 - 网页支持筛选、收藏和“准备报名 / 已报名 / 已放弃”状态；个人操作保存在本机浏览器。
-- GitHub Actions 每天北京时间 20:00 左右运行，并通过 PushPlus 推送前 10 个高匹配新增岗位。
+- GitHub Actions 每天北京时间 20:00 左右运行，并通过 WxPusher 推送前 10 个高匹配岗位；没有可报名岗位时也会发送状态提醒。
 - 历史岗位永久保存在 `data/jobs.json`。
 - 首批来源覆盖江苏省级公务员/事业单位栏目、13个设区市人社官网、江苏省国资委和军队人才网。
 
@@ -44,12 +44,12 @@ python -m gangsousou --import-local ".." --local-only --no-push
 
 1. 创建一个公开 GitHub 仓库，把本项目推送到仓库。
 2. 在仓库 `Settings → Pages` 中选择 `GitHub Actions` 作为发布来源。
-3. 关注 PushPlus 微信公众号并获取个人 Token。
-4. 在 `Settings → Secrets and variables → Actions` 新建 Secret：`PUSHPLUS_TOKEN`。
+3. 微信扫描 WxPusher 极简推送二维码并获取个人 SPT。
+4. 在 `Settings → Secrets and variables → Actions` 新建 Secret：`WXPUSHER_SPT`。
 5. 在同一页面新建 Variable：`SITE_URL`，值为 GitHub Pages 网站地址。
 6. 打开 `Actions → 每日采集与发布 → Run workflow` 做首次手动测试。
 
-`PUSHPLUS_TOKEN` 只能存放在 GitHub Secret 中，不要写进代码、截图或聊天记录。
+`WXPUSHER_SPT` 只能存放在 GitHub Secret 中，不要写进代码、截图或聊天记录。
 
 定时表达式使用 UTC 12:00，对应北京时间 20:00。GitHub 的定时任务可能因排队延后几分钟。
 

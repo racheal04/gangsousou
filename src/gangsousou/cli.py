@@ -10,7 +10,7 @@ from pathlib import Path
 from .crawler import Crawler
 from .local_import import import_local_files
 from .matcher import assess
-from .notify import pushplus_digest
+from .notify import wxpusher_digest
 from .storage import load_jobs, merge_jobs, save_jobs
 
 
@@ -61,7 +61,7 @@ def run(args: argparse.Namespace) -> int:
     save_jobs(data_path, merged, source_runs)
     if not args.no_push:
         try:
-            sent = pushplus_digest(list(merged.values()), os.getenv("SITE_URL", ""), len(new_jobs))
+            sent = wxpusher_digest(list(merged.values()), os.getenv("SITE_URL", ""), len(new_jobs))
             if sent:
                 logging.getLogger(__name__).info("微信推送成功")
             else:
