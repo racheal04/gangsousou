@@ -8,9 +8,9 @@ import requests
 from .models import Job
 
 
-def pushplus_digest(jobs: list[Job], site_url: str, new_count: int = 0) -> bool:
-    token = os.getenv("PUSHPLUS_TOKEN", "").strip()
-    if not token:
+def wxpusher_digest(jobs: list[Job], site_url: str, new_count: int = 0) -> bool:
+    spt = os.getenv("WXPUSHER_SPT", "").strip()
+    if not spt:
         return False
     ranked = sorted(
         (job for job in jobs if job.match.get("level") != "不符合" and job.official),
@@ -37,17 +37,18 @@ def pushplus_digest(jobs: list[Job], site_url: str, new_count: int = 0) -> bool:
         content = f"<p>今日暂未发现符合当前身份条件的可报名岗位。</p><p>岗位库中有 {trend_count} 条趋势参考记录。</p>"
     content += f'<p><a href="{escape(site_url)}">打开岗搜搜查看全部岗位</a></p>'
     response = requests.post(
-        "https://www.pushplus.plus/send",
+        "https://wxpusher.zjiecode.com/api/send/message/simple-push",
         json={
-            "token": token,
-            "title": title,
+            "spt": spt,
+            "summary": title,
             "content": content,
-            "template": "html",
+            "contentType": 2,
+            "url": site_url,
         },
         timeout=20,
     )
     response.raise_for_status()
     result = response.json()
-    if result.get("code") != 200:
-        raise RuntimeError(result.get("msg") or f"PushPlus 返回代码 {result.get('code')}")
+    if result.get("code") != 1000 or result.get("success") is False:
+        raise RuntimeError(result.get("msg") or f"WxPusher 返回代码 {result.get('code')}")
     return True
