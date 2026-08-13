@@ -16,4 +16,7 @@ def test_xlsx_position_table_parsing(tmp_path: Path):
     assert len(jobs) == 1
     assert jobs[0].organization == "某资源中心"
     assert jobs[0].majors == "资源与环境（085700）"
-
+    assert jobs[0].source_file == "positions.xlsx"
+    assert jobs[0].source_sheet == "Sheet"
+    assert jobs[0].source_row == 2
+    assert jobs[0].source_code == "01"

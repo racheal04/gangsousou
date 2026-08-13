@@ -34,10 +34,12 @@ def wxpusher_digest(jobs: list[Job], site_url: str, new_count: int = 0) -> str:
     )[:10]
     rows = []
     for index, job in enumerate(ranked, 1):
+        source_link = job.source_url or site_url
         rows.append(
             f"<p><b>{index}. {escape(job.title)}</b><br>"
             f"{escape(job.city)} · {escape(job.category)} · 匹配 {job.match.get('score', 0)} 分<br>"
-            f"<a href=\"{escape(job.source_url)}\">查看官方公告</a></p>"
+            f"来源：{escape(job.source_name or '来源名称待补充')}<br>"
+            f"<a href=\"{escape(source_link)}\">查看官方来源</a></p>"
         )
     if ranked:
         title = f"岗搜搜：今日新增 {new_count} 条｜精选 {len(ranked)} 个"

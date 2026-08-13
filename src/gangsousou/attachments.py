@@ -107,7 +107,7 @@ def jobs_from_spreadsheet(path: Path, meta: dict) -> list[Job]:
         if len(mapping) < 3 or "position" not in mapping:
             continue
         previous: dict[str, str] = {}
-        for raw_row in rows[header_index + 1 :]:
+        for row_index, raw_row in enumerate(rows[header_index + 1 :], start=header_index + 2):
             row = [clean(v) for v in raw_row]
             values: dict[str, str] = {}
             for field, column in mapping.items():
@@ -138,6 +138,10 @@ def jobs_from_spreadsheet(path: Path, meta: dict) -> list[Job]:
                 city=known_city or meta.get("city", "江苏"),
                 source_name=meta.get("source_name", path.name),
                 source_url=meta.get("source_url", ""),
+                source_file=path.name,
+                source_sheet=sheet_name,
+                source_row=row_index,
+                source_code=code,
                 official=meta.get("official", True),
                 published_at=meta.get("published_at", ""),
                 deadline=meta.get("deadline", ""),
@@ -149,7 +153,10 @@ def jobs_from_spreadsheet(path: Path, meta: dict) -> list[Job]:
                 experience=values.get("experience", ""),
                 other_requirements=values.get("other_requirements", ""),
                 attachment_urls=meta.get("attachment_urls", []),
-                summary=f"职位表：{sheet_name}；代码：{code}" if code else f"职位表：{sheet_name}",
+                summary=(
+                    f"原始职位表：{path.name}；工作表：{sheet_name}；第{row_index}行"
+                    + (f"；代码：{code}" if code else "")
+                ),
                 discovered_at=now_iso(),
                 last_seen_at=now_iso(),
             )

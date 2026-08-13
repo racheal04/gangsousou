@@ -18,6 +18,10 @@ class Job:
     work_location: str = ""
     source_name: str = ""
     source_url: str = ""
+    source_file: str = ""
+    source_sheet: str = ""
+    source_row: int = 0
+    source_code: str = ""
     official: bool = True
     published_at: str = ""
     registration_start: str = ""
@@ -50,4 +54,3 @@ class Job:
 
 def now_iso() -> str:
     return datetime.now().astimezone().isoformat(timespec="seconds")
-

@@ -34,7 +34,7 @@ def run(args: argparse.Namespace) -> int:
     if args.import_local:
         local_jobs = import_local_files(Path(args.import_local))
         incoming.extend(local_jobs)
-        source_runs.append({"source": "本地历史资料", "ok": True, "found": len(local_jobs), "error": ""})
+        source_runs.append({"source": "本地官方职位表", "ok": True, "found": len(local_jobs), "error": ""})
 
     if not args.local_only:
         crawler = Crawler()
@@ -56,8 +56,6 @@ def run(args: argparse.Namespace) -> int:
     new_jobs = [job for job in new_jobs if job.id in merged]
     for job in merged.values():
         assess(job, profile)
-        if job.source_name.startswith("本地历史资料"):
-            job.section = "趋势参考"
     save_jobs(data_path, merged, source_runs)
     if not args.no_push:
         try:
