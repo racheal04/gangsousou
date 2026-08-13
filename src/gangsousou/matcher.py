@@ -10,6 +10,7 @@ from .text import clean, is_expired
 IDENTITY_UNCERTAIN = ("备案制", "人员控制总量", "合同制", "劳务合同", "用工性质未明确")
 DISPATCH_TERMS = ("劳务派遣", "人才派遣", "编外", "外包用工", "劳务用工")
 PHYSICAL_TERMS = ("体能测评", "体能测试", "体测")
+MAJOR_SEPARATORS = re.compile(r"[，,、；;。\n\r|]+")
 
 
 def _contains_any(text: str, terms: list[str] | tuple[str, ...]) -> bool:
@@ -29,6 +30,60 @@ def _category_score(category: str, profile: dict) -> int:
         return max(0, 18 - priorities.index(category) * 2)
     except ValueError:
         return 0
+
+
+def _major_tokens(majors: str) -> list[str]:
+    """Split a major requirement into formal entries without substring matching."""
+    return [clean(token).replace(" ", "") for token in MAJOR_SEPARATORS.split(majors) if clean(token)]
+
+
+def _major_name(token: str) -> str:
+    """Remove a standalone six-digit major code while preserving the major name."""
+    return re.sub(r"[（(]?\b\d{6}\b[）)]?", "", token).strip(" ：:（）()")
+
+
+def _assess_major(job: Job, profile: dict, reasons: list[str], warnings: list[str]) -> int:
+    majors = clean(job.majors)
+    if not majors:
+        warnings.append("公告页未提取到具体专业，需查看职位表附件")
+        return 0
+
+    tokens = _major_tokens(majors)
+    names = set(profile.get("major_exact_names", [profile.get("major", "资源与环境")]))
+    codes = set(profile.get("major_codes", [profile.get("major_code", "085700")]))
+    normalized_names = {_major_name(token) for token in tokens}
+    matched_names = sorted(name for name in names if name and name in normalized_names)
+    matched_codes = sorted(code for code in codes if code and re.search(rf"(?<!\d){re.escape(code)}(?!\d)", majors))
+
+    if matched_names or matched_codes:
+        label = "、".join([*matched_names, *matched_codes])
+        reasons.append(f"专业精确命中：{label}")
+        return 24
+
+    if any(token in {"不限", "专业不限", "不限专业", "专业不作限制"} for token in tokens):
+        reasons.append("专业不限")
+        return 24
+
+    catalog = profile.get("major_catalog", {})
+    categories = set(catalog.get("graduate_categories", []))
+    matched_categories = sorted(category for category in categories if category in normalized_names)
+    if matched_categories:
+        category_label = "、".join(matched_categories)
+        catalog_name = catalog.get("name", "江苏公务员专业参考目录")
+        if job.category in {"公务员", "参公", "选调生"}:
+            reasons.append(f"专业大类命中：{category_label}（依据{catalog_name}）")
+            return 24
+        warnings.append(f"目录大类命中：{category_label}；需确认该公告采用{catalog_name}")
+        return 10
+
+    direction_terms = profile.get("research_direction_terms", [])
+    matched_directions = sorted({term for term in direction_terms if term and any(term in token for token in tokens)})
+    if matched_directions:
+        warnings.append(f"仅研究方向相关：{'、'.join(matched_directions[:3])}；毕业证专业为资源与环境，需咨询招录单位")
+        return 6
+
+    warnings.append("未命中资源与环境（085700）或其江苏公务员目录大类")
+    return -12
 
 
 def assess(job: Job, profile: dict) -> Job:
@@ -79,16 +134,7 @@ def assess(job: Job, profile: dict) -> Job:
     elif job.education and any(x in job.education for x in ("专科", "本科")) and "以上" not in job.education:
         warnings.append("学历口径需要核对是否接受硕士以研究生身份报考")
 
-    major_terms = profile.get("major_terms", [])
-    matched_terms = [term for term in major_terms if term.lower() in text.lower()]
-    if matched_terms:
-        score += 24
-        reasons.append(f"专业命中：{'、'.join(matched_terms[:4])}")
-    elif job.majors:
-        warnings.append("未直接命中资源与环境/测绘遥感专业，需核对专业目录")
-        score -= 12
-    else:
-        warnings.append("公告页未提取到具体专业，需查看职位表附件")
+    score += _assess_major(job, profile, reasons, warnings)
 
     if "中共党员" in text or "党员" in text:
         score += 7

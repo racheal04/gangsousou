@@ -61,6 +61,8 @@ def test_wxpusher_sends_daily_digest_when_no_new_jobs(monkeypatch):
     assert captured["json"]["uids"] == ["UID_test"]
     assert captured["json"]["summary"] == "岗搜搜：今日新增 0 条｜精选 1 个"
     assert "测绘岗位" in captured["json"]["content"]
+    assert "来源：官方来源" in captured["json"]["content"]
+    assert "https://example.gov.cn/job/1" in captured["json"]["content"]
     assert captured["params"] == {"sendRecordId": 123}
 
 

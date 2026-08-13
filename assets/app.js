@@ -39,7 +39,7 @@ function filteredJobs() {
   const city = $('city').value, category = $('category').value, level = $('level').value, progress = $('progress').value;
   let jobs = state.jobs.filter(job => {
     const sectionOk = state.section === '收藏' ? state.favorites.has(job.id) : job.section === state.section;
-    const text = [job.title, job.organization, job.position, job.majors, job.summary].join(' ').toLowerCase();
+    const text = [job.title, job.organization, job.position, job.majors, job.summary, job.source_name, job.source_file].join(' ').toLowerCase();
     return sectionOk && (!query || text.includes(query)) && (!city || job.city === city) &&
       (!category || job.category === category) && (!level || job.match?.level === level) &&
       (!progress || (state.progress[job.id] || '未处理') === progress);
@@ -78,6 +78,12 @@ function renderCard(job) {
   node.querySelector('.summary').textContent = job.summary || '请查看官方公告和职位表附件。';
   const notes = [...(job.match?.blockers || []), ...(job.match?.warnings || []), ...(job.match?.reasons || [])];
   node.querySelector('.match-explain').innerHTML = notes.length ? `<ul>${notes.slice(0, 5).map(v => `<li>${esc(v)}</li>`).join('')}</ul>` : '当前未发现明显限制条件，报名前仍需核对官方职位表。';
+  const sourceParts = [job.source_name || '来源名称待补充'];
+  if (job.source_file) sourceParts.push(`文件：${job.source_file}`);
+  if (job.source_sheet) sourceParts.push(`工作表：${job.source_sheet}`);
+  if (job.source_row) sourceParts.push(`第${job.source_row}行`);
+  if (job.source_code) sourceParts.push(`代码：${job.source_code}`);
+  node.querySelector('.source-detail').innerHTML = `<strong>来源</strong><span>${sourceParts.map(esc).join(' · ')}</span>`;
   const favorite = node.querySelector('.favorite');
   favorite.textContent = state.favorites.has(job.id) ? '★' : '☆';
   favorite.addEventListener('click', () => toggleFavorite(job.id));
@@ -85,7 +91,14 @@ function renderCard(job) {
   progress.value = state.progress[job.id] || '未处理';
   progress.addEventListener('change', event => setProgress(job.id, event.target.value));
   const link = node.querySelector('.official-link');
-  if (job.source_url) link.href = job.source_url; else { link.classList.add('disabled'); link.textContent = '本地历史资料'; }
+  if (job.source_url) {
+    link.href = job.source_url;
+    link.textContent = '查看官方来源';
+  } else {
+    link.removeAttribute('href');
+    link.classList.add('disabled');
+    link.textContent = '官方链接待补充';
+  }
   return node;
 }
 
